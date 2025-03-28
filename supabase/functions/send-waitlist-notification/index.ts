@@ -48,8 +48,6 @@ const handler = async (req: Request): Promise<Response> => {
         <h2>Additional Information</h2>
         <p>${submission.additionalInfo}</p>
         ` : ''}
-        
-        <p>Log into Supabase to view all submissions.</p>
       `,
     });
 
