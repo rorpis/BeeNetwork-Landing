@@ -31,8 +31,8 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Received waitlist submission:", submission);
     
     const emailResponse = await resend.emails.send({
-      from: "Physician Network <onboarding@resend.dev>",
-      to: ["rodrigo@keepmecompanyai.com"],
+      from: "PrivateClinicsNetwork Landing <onboarding@resend.dev>",
+      to: ["rodrigo@keepmecompanyai.com", "eduardo@keepmecompanyai.com"],
       subject: "New Physician Waitlist Application",
       html: `
         <h1>New Physician Waitlist Application</h1>
