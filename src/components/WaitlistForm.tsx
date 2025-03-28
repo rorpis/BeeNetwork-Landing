@@ -7,6 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { supabase } from '@/integrations/supabase/client';
+import { AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const specialties = [
   "Family Medicine",
@@ -33,6 +36,7 @@ const WaitlistForm = () => {
     additionalInfo: ''
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -50,10 +54,24 @@ const WaitlistForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     
-    // Simulate form submission delay
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      // Insert data into Supabase
+      const { error: supabaseError } = await supabase
+        .from('waitlist_submissions')
+        .insert({
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          specialty: formData.specialty,
+          current_situation: formData.currentSituation,
+          additional_info: formData.additionalInfo
+        });
+        
+      if (supabaseError) throw supabaseError;
+      
+      // Show success toast
       toast({
         title: "Waitlist Application Received",
         description: "Thank you for your interest! We'll be in touch soon about next steps.",
@@ -68,7 +86,17 @@ const WaitlistForm = () => {
         currentSituation: '',
         additionalInfo: ''
       });
-    }, 1500);
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setError('There was an error submitting your application. Please try again.');
+      toast({
+        title: "Submission Error",
+        description: "There was a problem submitting your application. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,6 +111,13 @@ const WaitlistForm = () => {
               Be among the first physicians to transform your career with our practice ownership model.
             </p>
           </div>
+          
+          {error && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
