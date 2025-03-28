@@ -57,6 +57,12 @@ const WaitlistForm = () => {
     setError('');
     
     try {
+      // Validate form data
+      if (!formData.firstName || !formData.lastName || !formData.email || 
+          !formData.specialty || !formData.currentSituation) {
+        throw new Error('Please fill in all required fields');
+      }
+      
       // Insert data into Supabase
       const { error: supabaseError } = await supabase
         .from('waitlist_submissions')
@@ -66,7 +72,7 @@ const WaitlistForm = () => {
           email: formData.email,
           specialty: formData.specialty,
           current_situation: formData.currentSituation,
-          additional_info: formData.additionalInfo
+          additional_info: formData.additionalInfo || null
         });
         
       if (supabaseError) throw supabaseError;
@@ -86,12 +92,12 @@ const WaitlistForm = () => {
         currentSituation: '',
         additionalInfo: ''
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error submitting form:', err);
-      setError('There was an error submitting your application. Please try again.');
+      setError(err.message || 'There was an error submitting your application. Please try again.');
       toast({
         title: "Submission Error",
-        description: "There was a problem submitting your application. Please try again.",
+        description: err.message || "There was a problem submitting your application. Please try again.",
         variant: "destructive",
       });
     } finally {
