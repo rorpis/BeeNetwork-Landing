@@ -1,50 +1,53 @@
 
 import React from 'react';
 import { DollarSign, Clock, Award, Shield, Lightbulb, Briefcase } from 'lucide-react';
-
-const benefits = [
-  {
-    icon: <DollarSign className="h-10 w-10 text-primary" />,
-    title: "50-80% Higher Income",
-    description: "Earn significantly more than traditional employment while retaining the security of our operational support."
-  },
-  {
-    icon: <Briefcase className="h-10 w-10 text-primary" />,
-    title: "Full Clinical Autonomy",
-    description: "Practice medicine your way, with complete freedom over clinical decision-making and patient care approach."
-  },
-  {
-    icon: <Clock className="h-10 w-10 text-primary" />,
-    title: "Rapid Launch",
-    description: "Get your practice up and running in a fraction of the time it would take independently - often in just 90 days."
-  },
-  {
-    icon: <Shield className="h-10 w-10 text-primary" />,
-    title: "Reduced Risk",
-    description: "Our operational expertise minimizes financial, regulatory, and administrative risks of practice ownership."
-  },
-  {
-    icon: <Lightbulb className="h-10 w-10 text-primary" />,
-    title: "Network Advantages",
-    description: "Benefit from shared resources, collective negotiating power, and knowledge exchange with peer physicians."
-  },
-  {
-    icon: <Award className="h-10 w-10 text-primary" />,
-    title: "Legacy Building",
-    description: "Create a valuable, sustainable practice asset that can be scaled or transferred in the future."
-  }
-];
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const BenefitsGrid = () => {
+  const { t, language } = useLanguage();
+  
+  const benefits = [
+    {
+      icon: <DollarSign className="h-10 w-10 text-primary" />,
+      title: t('benefits.income.title'),
+      description: t('benefits.income.desc')
+    },
+    {
+      icon: <Briefcase className="h-10 w-10 text-primary" />,
+      title: t('benefits.autonomy.title'),
+      description: t('benefits.autonomy.desc')
+    },
+    {
+      icon: <Clock className="h-10 w-10 text-primary" />,
+      title: t('benefits.launch.title'),
+      description: t('benefits.launch.desc')
+    },
+    {
+      icon: <Shield className="h-10 w-10 text-primary" />,
+      title: t('benefits.risk.title'),
+      description: t('benefits.risk.desc')
+    },
+    {
+      icon: <Lightbulb className="h-10 w-10 text-primary" />,
+      title: t('benefits.network.title'),
+      description: t('benefits.network.desc')
+    },
+    {
+      icon: <Award className="h-10 w-10 text-primary" />,
+      title: t('benefits.legacy.title'),
+      description: t('benefits.legacy.desc')
+    }
+  ];
+
   return (
-    <section className="py-20 bg-white" id="benefits">
+    <section className="py-20 bg-white" id="benefits" lang={language === 'en' ? 'en' : 'es'}>
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            The Benefits of Joining Our Network
+            {t('benefits.title')}
           </h2>
           <p className="text-xl text-gray-600">
-            Experience the freedom of ownership with the support of an established network.
+            {t('benefits.subtitle')}
           </p>
         </div>
         

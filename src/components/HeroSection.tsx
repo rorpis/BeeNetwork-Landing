@@ -2,10 +2,13 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const HeroSection = () => {
+  const { t, language } = useLanguage();
+  
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
+    <section className="relative py-20 md:py-28 overflow-hidden" lang={language === 'en' ? 'en' : 'es'}>
       {/* Background element */}
       <div className="absolute top-0 right-0 -z-10 w-2/3 h-full bg-accent/30 rounded-bl-[120px]" />
       
@@ -13,20 +16,20 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="animate-fade-in">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-4">
-              Own Your Practice, <span className="text-primary">Without the Hassle</span>
+              {t('hero.title').split(',')[0]}, <span className="text-primary">{t('hero.title').split(',')[1]}</span>
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-lg">
-              Launch and own your medical practice with complete operational support. Maximize your autonomy, income, and professional satisfaction.
+              {t('hero.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
               <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">
                 <a href="#waitlist" className="flex items-center">
-                  Join Waitlist <ArrowRight className="ml-2 h-4 w-4" />
+                  {t('hero.joinWaitlist')} <ArrowRight className="ml-2 h-4 w-4" />
                 </a>
               </Button>
               <Button asChild variant="outline" size="lg">
                 <a href="#how-it-works">
-                  Learn How It Works
+                  {t('hero.learnHow')}
                 </a>
               </Button>
             </div>
@@ -45,7 +48,7 @@ const HeroSection = () => {
                   <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-medium">NP</div>
                 </div>
                 <p className="text-sm font-medium">
-                  Join 100+ physicians <br/>already on the waitlist
+                  {t('hero.joinedWaitlist')}
                 </p>
               </div>
             </div>
