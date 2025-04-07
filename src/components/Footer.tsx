@@ -43,7 +43,7 @@ const Footer = () => {
               {t('footer.contact')}
             </h4>
             <ul className="space-y-2">
-              <li><a href="mailto:info@thebeenetwork.com" className="text-gray-700 hover:text-primary transition-colors">info@thebeenetwork.com</a></li>
+              <li><a href="mailto:info@theb-network.com" className="text-gray-700 hover:text-primary transition-colors">info@theb-network.com</a></li>
               <li className="text-gray-700">(555) 123-4567</li>
               <li><LanguageSwitcher /></li>
             </ul>
