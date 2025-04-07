@@ -26,24 +26,34 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#2563eb', // Calm professional blue
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: '#f5c24c', // Primary Gold
+					hover: '#e9c46a', // Icon Gold
+					foreground: '#332211' // Text Dark
 				},
 				secondary: {
-					DEFAULT: '#64748b', // Soft neutral gray
-					foreground: 'hsl(var(--secondary-foreground))'
+					DEFAULT: '#6b4ba3', // CTA Purple
+					hover: '#563d92', // Dark Purple
+					foreground: '#ffffff' // White
+				},
+				honey: {
+					DEFAULT: '#fffcf2', // Pale Honey
+					foreground: '#332211' // Text Dark
+				},
+				nature: {
+					DEFAULT: '#84a98c', // Nature Green
+					foreground: '#ffffff' // White
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
 				},
 				muted: {
-					DEFAULT: '#f1f5f9', // Light background
-					foreground: '#64748b' // Gray text
+					DEFAULT: '#f5f5f5', // Off-White
+					foreground: '#332211' // Text Dark
 				},
 				accent: {
-					DEFAULT: '#dbeafe', // Light blue background
-					foreground: '#2563eb' // Blue text
+					DEFAULT: '#fffcf2', // Pale Honey
+					foreground: '#332211' // Text Dark
 				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
@@ -105,13 +115,37 @@ export default {
 						opacity: '1',
 						transform: 'translateY(0)'
 					}
+				},
+				'float': {
+					'0%, 100%': {
+						transform: 'translateY(0)'
+					},
+					'50%': {
+						transform: 'translateY(-10px)'
+					}
+				},
+				'bee-fly': {
+					'0%, 100%': {
+						transform: 'translateX(0) translateY(0)'
+					},
+					'25%': {
+						transform: 'translateX(5px) translateY(-5px)'
+					},
+					'50%': {
+						transform: 'translateX(10px) translateY(0)'
+					},
+					'75%': {
+						transform: 'translateX(5px) translateY(5px)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.5s ease-out forwards',
-				'slide-up': 'slide-up 0.7s ease-out forwards'
+				'slide-up': 'slide-up 0.7s ease-out forwards',
+				'float': 'float 6s ease-in-out infinite',
+				'bee-fly': 'bee-fly 8s ease-in-out infinite'
 			}
 		}
 	},
