@@ -12,7 +12,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img 
-            src="/lovable-uploads/135fb281-b4be-4724-a328-1dc39f73654a.png" 
+            src="/lovable-uploads/23655388-9ef3-491f-8f21-cdb9be9a0eb0.png" 
             alt="TheBeeNetwork Logo" 
             className="h-10 w-auto"
           />

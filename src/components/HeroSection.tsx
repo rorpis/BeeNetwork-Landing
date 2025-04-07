@@ -19,7 +19,7 @@ const HeroSection = () => {
               <div className="relative">
                 <div className="bg-primary/20 p-3 rounded-lg">
                   <img 
-                    src="/lovable-uploads/135fb281-b4be-4724-a328-1dc39f73654a.png" 
+                    src="/lovable-uploads/23655388-9ef3-491f-8f21-cdb9be9a0eb0.png" 
                     alt="TheBeeNetwork" 
                     className="h-16 w-auto animate-float"
                   />
@@ -50,9 +50,9 @@ const HeroSection = () => {
           </div>
           <div className="relative animate-fade-in flex justify-center items-center">
             <img
-              src="/lovable-uploads/42d3d8c9-6444-4cad-9311-64895dfdd19c.png"
-              alt="Physician in modern medical practice"
-              className="rounded-2xl shadow-xl max-h-[500px] object-cover"
+              src="/lovable-uploads/b0d2383a-53cd-4cdf-9173-447ee47f096c.png"
+              alt="TheBeeNetwork Logo"
+              className="rounded-2xl shadow-xl max-h-[500px] object-contain"
             />
             <div className="absolute -bottom-8 -left-8 bg-white p-4 rounded-lg shadow-lg">
               <div className="flex items-center space-x-2">
