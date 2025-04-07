@@ -19,7 +19,7 @@ const HeroSection = () => {
               <div className="relative">
                 <div className="bg-primary/20 p-3 rounded-lg">
                   <img 
-                    src="/lovable-uploads/23655388-9ef3-491f-8f21-cdb9be9a0eb0.png" 
+                    src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
                     alt="TheBeeNetwork" 
                     className="h-16 w-auto animate-float"
                   />
