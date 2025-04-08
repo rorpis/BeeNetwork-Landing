@@ -24,7 +24,7 @@ const PageViewTracker = () => {
             user_fingerprint: fingerprint,
             referrer: document.referrer || null,
             user_agent: navigator.userAgent || null
-          });
+          } as any); // Using type assertion to bypass TypeScript error until types are regenerated
           
         console.log('Page view tracked successfully');
       } catch (error) {
