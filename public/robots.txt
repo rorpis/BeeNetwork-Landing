@@ -1,3 +1,14 @@
+
+User-agent: *
+Allow: /
+
+# Important pages that we want to be indexed
+Allow: /
+Allow: /#how-it-works
+Allow: /#benefits
+Allow: /#waitlist
+
+# Make sure Google can access our content
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +21,5 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+# Add site map for search engines
+Sitemap: https://thebeenetwork.com/sitemap.xml
