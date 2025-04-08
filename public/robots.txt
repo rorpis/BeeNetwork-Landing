@@ -23,4 +23,4 @@ User-agent: facebookexternalhit
 Allow: /
 
 # Add site map for search engines
-Sitemap: https://thebeenetwork.com/sitemap.xml
+Sitemap: https://www.theb-network.com/sitemap.xml
