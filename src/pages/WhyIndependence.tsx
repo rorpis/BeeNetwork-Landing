@@ -101,30 +101,6 @@ const WhyIndependence = () => {
           </div>
         </section>
 
-        {/* Physician testimonials */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-3xl font-bold mb-12 text-center">What Physicians Say About Independence</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
-                <p className="italic mb-4">"Transitioning to my own practice was the best career decision I've made. I have more time with patients, better income, and finally enjoy medicine again."</p>
-                <div className="font-semibold">Dr. Sarah Johnson</div>
-                <div className="text-sm text-gray-600">Family Medicine, Independent since 2021</div>
-              </div>
-              <div className="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
-                <p className="italic mb-4">"I was afraid of the business side of running a practice, but with TheBeeNetwork's support, it's been seamless. I focus on patients while they handle operations."</p>
-                <div className="font-semibold">Dr. Michael Chen</div>
-                <div className="text-sm text-gray-600">Internal Medicine, Independent since 2022</div>
-              </div>
-              <div className="bg-white border border-gray-200 p-6 rounded-xl shadow-sm">
-                <p className="italic mb-4">"My income increased by 40% in the first year of independent practice. More importantly, I regained control over how I practice medicine."</p>
-                <div className="font-semibold">Dr. Rebecca Torres</div>
-                <div className="text-sm text-gray-600">Pediatrics, Independent since 2020</div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* CTA section */}
         <section className="py-16 bg-primary/10">
           <div className="container mx-auto px-4 md:px-6 text-center">
