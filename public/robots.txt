@@ -7,6 +7,7 @@ Allow: /
 Allow: /#how-it-works
 Allow: /#benefits
 Allow: /#waitlist
+Allow: /why-independence
 
 # Make sure Google can access our content
 User-agent: Googlebot
