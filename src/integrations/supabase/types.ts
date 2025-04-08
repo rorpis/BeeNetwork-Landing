@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      pageviews: {
+        Row: {
+          city: string | null
+          country: string | null
+          created_at: string
+          id: string
+          ip_address: string | null
+          page_path: string
+          referrer: string | null
+          region: string | null
+          user_agent: string | null
+          user_fingerprint: string
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          page_path: string
+          referrer?: string | null
+          region?: string | null
+          user_agent?: string | null
+          user_fingerprint: string
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: string | null
+          page_path?: string
+          referrer?: string | null
+          region?: string | null
+          user_agent?: string | null
+          user_fingerprint?: string
+        }
+        Relationships: []
+      }
       waitlist_submissions: {
         Row: {
           additional_info: string | null
