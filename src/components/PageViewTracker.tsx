@@ -16,6 +16,24 @@ const PageViewTracker = () => {
         // Get the current page path
         const pagePath = location.pathname + location.search;
 
+        // Get geolocation data from IP
+        let ipData = {};
+        try {
+          const geoResponse = await fetch('https://ipapi.co/json/');
+          if (geoResponse.ok) {
+            const geoData = await geoResponse.json();
+            ipData = {
+              ip_address: geoData.ip || null,
+              country: geoData.country_name || null,
+              region: geoData.region || null,
+              city: geoData.city || null
+            };
+            console.log('Geolocation data retrieved:', ipData);
+          }
+        } catch (geoError) {
+          console.error('Error retrieving geolocation data:', geoError);
+        }
+
         // Track the page view in Supabase
         await supabase
           .from('pageviews')
@@ -23,7 +41,8 @@ const PageViewTracker = () => {
             page_path: pagePath,
             user_fingerprint: fingerprint,
             referrer: document.referrer || null,
-            user_agent: navigator.userAgent || null
+            user_agent: navigator.userAgent || null,
+            ...ipData
           } as any); // Using type assertion to bypass TypeScript error until types are regenerated
           
         console.log('Page view tracked successfully');
