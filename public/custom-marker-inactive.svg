@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="35" height="57" viewBox="0 0 35 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shadow (ellipse at bottom) -->
+  <ellipse cx="17.5" cy="54" rx="5" ry="3" fill="rgba(0,0,0,0.2)" />
+  
+  <!-- Main pin shape -->
+  <path d="M17.5 0C8.4 0 1 7.4 1 16.5C1 28.9 17.5 55 17.5 55C17.5 55 34 28.9 34 16.5C34 7.4 26.6 0 17.5 0Z" fill="#9F67FF" />
+  
+  <!-- Golden circle -->
+  <circle cx="17.5" cy="16.5" r="8" fill="#FAF5FF" />
+</svg> 

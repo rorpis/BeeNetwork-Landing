@@ -1,8 +1,7 @@
-
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CalendarDays, Users, CreditCard, Settings, Bell, FastForward } from 'lucide-react';
+import { CalendarDays, Users, CreditCard, Settings, Bell, FastForward, PartyPopper } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 
 interface PracticeManagementProps {
@@ -11,26 +10,34 @@ interface PracticeManagementProps {
 
 const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) => {
   const [showFastForwardButton, setShowFastForwardButton] = useState(false);
+  const [notificationShown, setNotificationShown] = useState(false);
 
   useEffect(() => {
-    // Show the toast notification once
-    const timer = setTimeout(() => {
+    if (!notificationShown) {
       toast({
-        title: "First patient booked",
-        description: "Monday, May 2, 10:00 AM",
+        title: "Congratulations!",
+        description: (
+          <div className="flex items-center gap-2">
+            <PartyPopper className="h-5 w-5 text-yellow-500" />
+            <span>You have your first patient booking!</span>
+          </div>
+        ),
         action: (
           <div className="mt-2">
             <button 
               className="bg-primary px-3 py-1 rounded text-sm text-primary-foreground"
-              onClick={onContinue}
             >
               View Appointment
             </button>
           </div>
         ),
       });
-      
-      // Only show Fast Forward button after notification appears
+      setNotificationShown(true);
+    }
+  }, [notificationShown]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
       setShowFastForwardButton(true);
     }, 2000);
 
