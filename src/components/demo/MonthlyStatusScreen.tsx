@@ -1,6 +1,7 @@
+
 import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Users, ArrowRight, Bell, Download } from 'lucide-react';
+import { Users, ArrowRight, Bell, Download, CreditCard, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface MonthlyStatusScreenProps {
