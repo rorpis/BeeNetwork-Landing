@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import WelcomeScreen from '@/components/demo/WelcomeScreen';
@@ -25,6 +26,11 @@ const Demo = () => {
   const { toast } = useToast();
 
   const goToStep = (step: DemoStep) => {
+    // Dismiss any existing toasts when changing steps to monthly status
+    if (step === 'monthly-status') {
+      toast.dismiss();
+    }
+    
     setCurrentStep(step);
     window.scrollTo(0, 0);
   };
@@ -69,11 +75,7 @@ const Demo = () => {
       case 'practice-management':
         return (
           <PracticeManagement 
-            onContinue={() => {
-              setTimeout(() => {
-                goToStep('monthly-status');
-              }, 4000);
-            }}
+            onContinue={() => goToStep('monthly-status')}
           />
         );
       case 'monthly-status':

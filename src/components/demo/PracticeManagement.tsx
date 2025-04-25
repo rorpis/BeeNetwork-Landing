@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CalendarDays, Users, CreditCard, Settings, Bell, FastForward } from 'lucide-react';
@@ -10,6 +10,8 @@ interface PracticeManagementProps {
 }
 
 const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) => {
+  const [showFastForwardButton, setShowFastForwardButton] = useState(false);
+
   useEffect(() => {
     // Show the toast notification once
     const timer = setTimeout(() => {
@@ -27,6 +29,9 @@ const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) =
           </div>
         ),
       });
+      
+      // Only show Fast Forward button after notification appears
+      setShowFastForwardButton(true);
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -151,16 +156,18 @@ const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) =
         </div>
       </div>
 
-      {/* Fast Forward Demo Button */}
-      <div className="fixed bottom-6 left-6 z-50">
-        <Button 
-          onClick={onContinue}
-          className="bg-[#9b87f5] hover:bg-[#1A1F2C] text-white font-medium px-6 py-6 rounded-full shadow-lg flex items-center gap-2"
-        >
-          <FastForward className="h-5 w-5" />
-          Fast Forward Demo
-        </Button>
-      </div>
+      {/* Fast Forward Demo Button - Only shown after notification appears */}
+      {showFastForwardButton && (
+        <div className="fixed bottom-6 left-6 z-50">
+          <Button 
+            onClick={onContinue}
+            className="bg-[#9b87f5] hover:bg-[#1A1F2C] text-white font-medium px-6 py-6 rounded-full shadow-lg flex items-center gap-2"
+          >
+            <FastForward className="h-5 w-5" />
+            Fast Forward Demo
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
