@@ -1,9 +1,9 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Check, Upload } from 'lucide-react';
+import { Check, Upload, Folder } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 interface DocumentUploadScreenProps {
   onContinue: () => void;
@@ -13,8 +13,14 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isLeaseUploaded, setIsLeaseUploaded] = useState(false);
-  
-  const handleUpload = () => {
+  const [showFileDialog, setShowFileDialog] = useState(false);
+
+  const handleUploadClick = () => {
+    setShowFileDialog(true);
+  };
+
+  const handleFileSelect = () => {
+    setShowFileDialog(false);
     setIsUploading(true);
     
     // Simulate upload progress
@@ -97,7 +103,7 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        onClick={handleUpload}
+                        onClick={handleUploadClick}
                         disabled={isUploading}
                       >
                         <Upload className="h-4 w-4 mr-1" />
@@ -125,6 +131,27 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
           </Button>
         </div>
       </div>
+
+      {/* File Selection Dialog */}
+      <Dialog open={showFileDialog} onOpenChange={setShowFileDialog}>
+        <DialogContent className="sm:max-w-md">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <Folder className="h-4 w-4" />
+              My Documents
+            </div>
+            <div 
+              className="p-4 border rounded cursor-pointer hover:bg-accent"
+              onClick={handleFileSelect}
+            >
+              <div className="flex items-center gap-2">
+                <div className="text-red-500">PDF</div>
+                <span>Lease_Agreement.pdf</span>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

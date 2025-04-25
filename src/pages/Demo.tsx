@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import WelcomeScreen from '@/components/demo/WelcomeScreen';
@@ -27,11 +26,9 @@ const Demo = () => {
 
   const goToStep = (step: DemoStep) => {
     setCurrentStep(step);
-    // Scroll to top when changing steps
     window.scrollTo(0, 0);
   };
 
-  // Render the appropriate screen based on the current step
   const renderScreen = () => {
     switch (currentStep) {
       case 'welcome':
@@ -54,6 +51,7 @@ const Demo = () => {
               });
               goToStep('document-upload');
             }}
+            onBack={() => goToStep('marketplace')}
           />
         );
       case 'document-upload':
@@ -72,7 +70,6 @@ const Demo = () => {
         return (
           <PracticeManagement 
             onContinue={() => {
-              // Slight delay to simulate auto navigation
               setTimeout(() => {
                 goToStep('monthly-status');
               }, 4000);

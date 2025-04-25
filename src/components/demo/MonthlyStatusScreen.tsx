@@ -1,5 +1,4 @@
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Users, ArrowRight, Bell, Download, CreditCard, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,15 +8,6 @@ interface MonthlyStatusScreenProps {
 }
 
 const MonthlyStatusScreen: React.FC<MonthlyStatusScreenProps> = ({ onContinue }) => {
-  useEffect(() => {
-    // Auto-advance to the final screen after a delay
-    const timer = setTimeout(() => {
-      onContinue();
-    }, 6000);
-    
-    return () => clearTimeout(timer);
-  }, [onContinue]);
-
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
@@ -132,7 +122,7 @@ const MonthlyStatusScreen: React.FC<MonthlyStatusScreenProps> = ({ onContinue })
             </CardContent>
           </Card>
           
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-8">
             <Button onClick={onContinue} className="inline-flex items-center gap-2">
               Continue <ArrowRight className="h-4 w-4" />
             </Button>

@@ -2,16 +2,18 @@
 import React from 'react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Check } from 'lucide-react';
+import { Check, ArrowLeft } from 'lucide-react';
 
 interface ReservationScreenProps {
   location: any;
   onPaymentComplete: () => void;
+  onBack: () => void;
 }
 
 const ReservationScreen: React.FC<ReservationScreenProps> = ({ 
   location, 
-  onPaymentComplete 
+  onPaymentComplete,
+  onBack
 }) => {
   if (!location) {
     location = {
@@ -27,6 +29,15 @@ const ReservationScreen: React.FC<ReservationScreenProps> = ({
   return (
     <div className="min-h-screen bg-background py-12 px-4 flex justify-center">
       <div className="max-w-3xl w-full">
+        <Button 
+          variant="ghost" 
+          onClick={onBack}
+          className="mb-6 inline-flex items-center gap-2"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Practice Selection
+        </Button>
+
         <h1 className="text-3xl font-bold text-center mb-8">Complete Your Reservation</h1>
         
         <Card className="mb-8">

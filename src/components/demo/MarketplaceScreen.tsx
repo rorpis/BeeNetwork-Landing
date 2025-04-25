@@ -9,7 +9,6 @@ interface MarketplaceScreenProps {
   onContinue: () => void;
 }
 
-// Mocked location data
 const locationData = {
   id: 1,
   address: '123 Bee Street, Fort Lauderdale, FL',
@@ -30,9 +29,16 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Map section (70%) */}
-      <div className="w-full md:w-[70%] h-[50vh] md:h-screen bg-muted relative">
+    <div className={`min-h-screen flex ${showLocationDetails ? 'flex-col md:flex-row' : 'flex-col'}`}>
+      {/* Map Header */}
+      <div className="w-full bg-background border-b px-6 py-3 flex justify-center gap-4">
+        <Button variant="outline" disabled>Buy</Button>
+        <Button variant="outline" disabled>Lease</Button>
+        <Button variant="default">Sublease</Button>
+      </div>
+      
+      {/* Map section (adjusts width based on details panel) */}
+      <div className={`w-full ${showLocationDetails ? 'md:w-[70%]' : 'w-full'} h-[calc(100vh-64px)] relative`}>
         <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
           {/* Mock map container */}
           <div className="w-full h-full bg-gray-300 relative">
@@ -73,9 +79,9 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
         </div>
       </div>
       
-      {/* Details panel (30%) */}
-      <div className="w-full md:w-[30%] p-4 bg-background overflow-y-auto">
-        {showLocationDetails ? (
+      {/* Details panel (30% when visible) */}
+      {showLocationDetails && (
+        <div className="w-full md:w-[30%] p-4 bg-background overflow-y-auto">
           <Card className="animate-fade-in">
             <CardHeader className="p-0">
               <Carousel className="w-full">
@@ -114,14 +120,8 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
               <Button onClick={onContinue} className="w-full">Confirm Space</Button>
             </CardFooter>
           </Card>
-        ) : (
-          <div className="h-full flex items-center justify-center">
-            <p className="text-gray-500 text-center italic">
-              Please select a location on the map
-            </p>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

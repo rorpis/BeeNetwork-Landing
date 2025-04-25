@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { CalendarDays, Users, CreditCard, Settings, Bell } from 'lucide-react';
+import { CalendarDays, Users, CreditCard, Settings, Bell, FastForward } from 'lucide-react';
 import { toast } from "@/hooks/use-toast";
 
 interface PracticeManagementProps {
@@ -10,7 +9,7 @@ interface PracticeManagementProps {
 
 const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) => {
   useEffect(() => {
-    // Show the toast notification after a delay
+    // Show the toast notification once
     const timer = setTimeout(() => {
       toast({
         title: "First patient booked",
@@ -29,10 +28,10 @@ const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) =
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [onContinue]);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex relative">
       {/* Sidebar */}
       <div className="hidden md:block w-64 bg-muted p-4 border-r">
         <div className="flex items-center mb-6">
@@ -148,6 +147,17 @@ const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) =
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Fast Forward Demo Button */}
+      <div className="fixed bottom-6 left-6 z-50">
+        <Button 
+          onClick={onContinue}
+          className="bg-[#9b87f5] hover:bg-[#1A1F2C] text-white font-medium px-6 py-6 rounded-full shadow-lg flex items-center gap-2"
+        >
+          <FastForward className="h-5 w-5" />
+          Fast Forward Demo
+        </Button>
       </div>
     </div>
   );
