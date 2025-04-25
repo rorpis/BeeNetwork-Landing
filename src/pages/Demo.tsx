@@ -23,12 +23,12 @@ export type DemoStep =
 const Demo = () => {
   const [currentStep, setCurrentStep] = useState<DemoStep>('welcome');
   const [selectedLocation, setSelectedLocation] = useState<any>(null);
-  const { toast } = useToast();
+  const { toast, dismiss } = useToast();
 
   const goToStep = (step: DemoStep) => {
-    // Dismiss any existing toasts when changing steps to monthly status
+    // Use the dismiss method from useToast when changing steps to monthly status
     if (step === 'monthly-status') {
-      toast.dismiss();
+      dismiss();
     }
     
     setCurrentStep(step);
