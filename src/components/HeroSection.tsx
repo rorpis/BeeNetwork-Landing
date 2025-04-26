@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
@@ -19,7 +18,7 @@ const HeroSection = () => {
               <div className="relative">
                 <div className="bg-primary/20 p-3 rounded-lg">
                   <img 
-                    src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
+                    src="/lovable-uploads/dashboard-icon.png" 
                     alt="TheBeeNetwork" 
                     className="h-16 w-auto animate-float"
                   />
@@ -50,8 +49,8 @@ const HeroSection = () => {
           </div>
           <div className="relative animate-fade-in flex justify-center items-center">
             <img
-              src="/lovable-uploads/b0d2383a-53cd-4cdf-9173-447ee47f096c.png"
-              alt="TheBeeNetwork Logo"
+              src="/lovable-uploads/home-background.png"
+              alt="Home"
               className="rounded-2xl shadow-xl max-h-[500px] object-contain"
             />
             <div className="absolute -bottom-8 -left-8 bg-white p-4 rounded-lg shadow-lg">

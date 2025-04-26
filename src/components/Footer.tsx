@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -13,7 +12,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <img 
-                src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
+                src="/lovable-uploads/dashboard-icon.png" 
                 alt="TheBeeNetwork Logo" 
                 className="h-10 w-auto"
               />

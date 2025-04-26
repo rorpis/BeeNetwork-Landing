@@ -14,7 +14,7 @@ const MonthlyStatusScreen: React.FC<MonthlyStatusScreenProps> = ({ onContinue })
       <div className="hidden md:block w-64 bg-muted p-4 border-r">
         <div className="flex items-center mb-6">
           <img 
-            src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
+            src="/lovable-uploads/dashboard-icon.png" 
             alt="Logo" 
             className="h-8 w-8 mr-2" 
           />
@@ -79,7 +79,7 @@ const MonthlyStatusScreen: React.FC<MonthlyStatusScreenProps> = ({ onContinue })
                 <h3 className="text-xl font-bold mb-2">April 2025</h3>
                 <div className="grid md:grid-cols-3 gap-4 text-center">
                   <div className="p-3 bg-background rounded-md">
-                    <div className="text-3xl font-bold">38</div>
+                    <div className="text-3xl font-bold">122</div>
                     <div className="text-sm text-muted-foreground">Patients Seen</div>
                   </div>
                   <div className="p-3 bg-background rounded-md">

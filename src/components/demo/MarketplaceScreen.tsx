@@ -25,28 +25,29 @@ const locationData = {
     { name: 'Dr. Lee', specialty: 'Neurologist', rating: 4.9, reviews: 89 },
     { name: 'Dr. Patel', specialty: 'Pediatrician', rating: 4.7, reviews: 156 }
   ],
-  price: '$8,500',
+  price: '$2,500',
   marketComparison: '20% below market average',
   publishedDate: '8 days ago',
   amenities: ['Modern Equipment', 'Parking Available', 'Break Room'],
   images: [
-    '/lovable-uploads/b0d2383a-53cd-4cdf-9173-447ee47f096c.png',
-    '/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png',
+    '/lovable-uploads/location_view_1.png',
+    '/lovable-uploads/location_view_2.png',
+    '/lovable-uploads/location_view_3.png',
   ]
 };
 
 const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect, onContinue }) => {
   const [showLocationDetails, setShowLocationDetails] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [api, setApi] = useState<any>(null);
 
   useEffect(() => {
-    if (emblaApi) {
-      emblaApi.on('select', () => {
-        setCurrentSlide(emblaApi.selectedScrollSnap());
-      });
-    }
-  }, [emblaApi]);
+    if (!api) return;
+
+    api.on('select', () => {
+      setCurrentSlide(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   const handlePinClick = () => {
     setShowLocationDetails(true);
@@ -133,7 +134,11 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
                   </Badge>
                   <Carousel 
                     className="w-full relative"
-                    ref={emblaRef}
+                    opts={{
+                      loop: false,
+                      align: 'start',
+                    }}
+                    setApi={setApi}
                   >
                     <CarouselContent>
                       {locationData.images.map((image, i) => (

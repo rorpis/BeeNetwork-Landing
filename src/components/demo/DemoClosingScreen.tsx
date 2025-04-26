@@ -13,7 +13,7 @@ const DemoClosingScreen: React.FC<DemoClosingScreenProps> = ({ onRestart }) => {
       <div className="max-w-2xl w-full bg-white rounded-lg shadow-xl p-8 text-center animate-fade-in">
         <div className="mb-8">
           <img 
-            src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
+            src="/lovable-uploads/dashboard-icon.png" 
             alt="BeeNetwork Logo" 
             className="h-16 w-16 mx-auto mb-4" 
           />

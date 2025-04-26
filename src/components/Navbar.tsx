@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -14,7 +13,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
           <Link to="/">
             <img 
-              src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
+              src="/lovable-uploads/dashboard-icon.png" 
               alt="TheBeeNetwork Logo" 
               className="h-10 w-auto"
             />

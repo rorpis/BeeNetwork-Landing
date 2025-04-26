@@ -50,7 +50,7 @@ const PracticeManagement: React.FC<PracticeManagementProps> = ({ onContinue }) =
       <div className="hidden md:block w-64 bg-muted p-4 border-r">
         <div className="flex items-center mb-6">
           <img 
-            src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
+            src="/lovable-uploads/dashboard-icon.png" 
             alt="Logo" 
             className="h-8 w-8 mr-2" 
           />

@@ -45,7 +45,7 @@ const BenefitsGrid = () => {
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="mb-6 flex justify-center">
             <img 
-              src="/lovable-uploads/d279ab32-44e0-473f-bc4b-f419642be4d8.png" 
+              src="/lovable-uploads/dashboard-icon.png" 
               alt="TheBeeNetwork Logo" 
               className="h-20 w-auto animate-bee-fly"
             />

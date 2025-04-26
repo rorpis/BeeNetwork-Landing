@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import WelcomeScreen from '@/components/demo/WelcomeScreen';
@@ -51,10 +50,6 @@ const Demo = () => {
           <ReservationScreen 
             location={selectedLocation}
             onPaymentComplete={() => {
-              toast({
-                title: "Payment received",
-                description: "Your reservation has been confirmed."
-              });
               goToStep('document-upload');
             }}
             onBack={() => goToStep('marketplace')}

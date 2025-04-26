@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Check, Upload, Folder } from 'lucide-react';
+import { Check, Upload, Folder, ChevronLeft, ChevronRight, X, FileText } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 
@@ -14,27 +14,35 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isLeaseUploaded, setIsLeaseUploaded] = useState(false);
   const [showFileDialog, setShowFileDialog] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
   const handleUploadClick = () => {
     setShowFileDialog(true);
   };
 
-  const handleFileSelect = () => {
-    setShowFileDialog(false);
-    setIsUploading(true);
-    
-    // Simulate upload progress
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 10;
-      setUploadProgress(progress);
+  const handleFileSelect = (file: string) => {
+    setSelectedFile(file);
+  };
+
+  const handleConfirmSelection = () => {
+    if (selectedFile) {
+      setShowFileDialog(false);
+      setIsUploading(true);
+      setSelectedFile(null);
       
-      if (progress >= 100) {
-        clearInterval(interval);
-        setIsLeaseUploaded(true);
-        setIsUploading(false);
-      }
-    }, 200);
+      // Simulate upload progress
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 10;
+        setUploadProgress(progress);
+        
+        if (progress >= 100) {
+          clearInterval(interval);
+          setIsLeaseUploaded(true);
+          setIsUploading(false);
+        }
+      }, 200);
+    }
   };
 
   return (
@@ -42,7 +50,7 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
       <div className="max-w-3xl mx-auto">
         <div className="mb-12">
           <div className="flex items-center mb-4">
-            <div className="bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold mr-2">1</div>
+            <div className="bg-primary text-primary-foreground w-8 h-8 rounded-full flex items-center justify-center font-bold mr-2">2</div>
             <h1 className="text-2xl font-semibold">Upload Documents</h1>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full">
@@ -133,25 +141,100 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
       </div>
 
       {/* File Selection Dialog */}
-      <Dialog open={showFileDialog} onOpenChange={setShowFileDialog}>
-        <DialogContent className="sm:max-w-md">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-sm font-medium">
-              <Folder className="h-4 w-4" />
-              My Documents
-            </div>
-            <div 
-              className="p-4 border rounded cursor-pointer hover:bg-accent"
-              onClick={handleFileSelect}
-            >
+      {showFileDialog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-[800px] h-[500px] flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="bg-gray-100 px-4 py-2 flex items-center justify-between border-b">
               <div className="flex items-center gap-2">
-                <div className="text-red-500">PDF</div>
-                <span>Lease_Agreement.pdf</span>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <div className="flex items-center gap-1 text-sm text-gray-600">
+                  <span>Documents</span>
+                  <ChevronRight className="h-4 w-4" />
+                  <span>Medical Practice</span>
+                  <ChevronRight className="h-4 w-4" />
+                  <span className="font-medium">Lease Documents</span>
+                </div>
+              </div>
+              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setShowFileDialog(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* File Browser */}
+            <div className="flex-1 p-4 overflow-auto">
+              <div className="grid grid-cols-3 gap-4">
+                {/* Legal Documents */}
+                <div className="col-span-3">
+                  <h3 className="text-sm font-medium text-gray-500 mb-2">Legal Documents</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div 
+                      className={`flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
+                        selectedFile === 'signed_lease_agreement' ? 'border-primary bg-primary/5' : ''
+                      }`}
+                      onClick={() => handleFileSelect('signed_lease_agreement')}
+                    >
+                      <FileText className={`h-12 w-12 ${selectedFile === 'signed_lease_agreement' ? 'text-primary' : 'text-gray-400'} mb-2`} />
+                      <span className="text-sm font-medium text-center">signed_lease_agreement.pdf</span>
+                      <span className="text-xs text-gray-500">2.4 MB</span>
+                    </div>
+                    <div className="flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-not-allowed opacity-50">
+                      <FileText className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm font-medium text-center">medical_license.pdf</span>
+                      <span className="text-xs text-gray-500">1.8 MB</span>
+                    </div>
+                    <div className="flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-not-allowed opacity-50">
+                      <FileText className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm font-medium text-center">insurance_certificate.pdf</span>
+                      <span className="text-xs text-gray-500">3.2 MB</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Practice Documents */}
+                <div className="col-span-3">
+                  <h3 className="text-sm font-medium text-gray-500 mb-2">Practice Documents</h3>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-not-allowed opacity-50">
+                      <FileText className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm font-medium text-center">business_plan.docx</span>
+                      <span className="text-xs text-gray-500">1.5 MB</span>
+                    </div>
+                    <div className="flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-not-allowed opacity-50">
+                      <FileText className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm font-medium text-center">equipment_list.xlsx</span>
+                      <span className="text-xs text-gray-500">0.8 MB</span>
+                    </div>
+                    <div className="flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-not-allowed opacity-50">
+                      <FileText className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm font-medium text-center">staff_credentials.pdf</span>
+                      <span className="text-xs text-gray-500">2.1 MB</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Footer */}
+            <div className="bg-gray-100 px-4 py-3 flex justify-end gap-2 border-t">
+              <Button variant="outline" onClick={() => {
+                setShowFileDialog(false);
+                setSelectedFile(null);
+              }}>
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleConfirmSelection}
+                disabled={!selectedFile}
+              >
+                Select
+              </Button>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </div>
   );
 };

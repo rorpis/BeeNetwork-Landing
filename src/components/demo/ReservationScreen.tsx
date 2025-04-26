@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Check, ArrowLeft } from 'lucide-react';
@@ -15,16 +14,69 @@ const ReservationScreen: React.FC<ReservationScreenProps> = ({
   onPaymentComplete,
   onBack
 }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   if (!location) {
     location = {
       address: '123 Bee Street, Fort Lauderdale, FL',
-      price: '$8,500 / month',
+      price: '$2,500 / month',
     };
   }
   
   // Calculate the reservation fee (10% of monthly rent)
   const monthlyPrice = parseInt(location.price.replace(/\D/g, ''));
   const reservationFee = monthlyPrice * 0.1;
+
+  const handlePayment = () => {
+    setIsProcessing(true);
+    
+    // Simulate payment processing for 2 seconds
+    setTimeout(() => {
+      setIsProcessing(false);
+      setIsSuccess(true);
+      
+      // Show success message for 2 seconds before proceeding
+      setTimeout(() => {
+        onPaymentComplete();
+      }, 2000);
+    }, 2000);
+  };
+
+  if (isProcessing) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-primary/20 rounded-full"></div>
+              <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Processing Payment</h2>
+          <p className="text-gray-600 mb-4">Please wait while we process your payment...</p>
+          <p className="text-sm text-gray-500">This will only take a moment</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center">
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+              <Check className="w-8 h-8 text-primary" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold mb-2">Payment Successful!</h2>
+          <p className="text-gray-600 mb-4">Your reservation has been confirmed.</p>
+          <p className="text-sm text-gray-500">Redirecting to document management...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background py-12 px-4 flex justify-center">
@@ -86,7 +138,7 @@ const ReservationScreen: React.FC<ReservationScreenProps> = ({
         
         <div className="flex justify-center">
           <Button 
-            onClick={onPaymentComplete}
+            onClick={handlePayment}
             size="lg"
             className="px-8"
           >
