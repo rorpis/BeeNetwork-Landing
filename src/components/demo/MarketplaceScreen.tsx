@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -152,16 +153,19 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
       
       {/* Main content area with map and details panel */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Map section */}
+        {/* Map section with overlay when details are showing */}
         <div className="w-full relative">
-          <div className="absolute inset-0">
+          <div className={`absolute inset-0 transition-opacity duration-300 ${showLocationDetails ? 'opacity-50' : 'opacity-100'}`}>
             <Map onPinClick={handlePinClick} />
           </div>
+          {showLocationDetails && (
+            <div className="absolute inset-0 bg-black/10 pointer-events-none z-10"></div>
+          )}
         </div>
         
         {/* Details panel */}
         {showLocationDetails && (
-          <div className="w-[40%] bg-background border-l flex flex-col max-h-full">
+          <div className="w-[40%] bg-background border-l flex flex-col max-h-full z-20">
             <div className="flex-1 overflow-y-auto">
               <Card className="border-0 rounded-none h-full">
                 <CardHeader className="p-0 relative">
@@ -269,7 +273,7 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
       
       {/* Tour Booking Dialog */}
       <Dialog open={showTourBooking} onOpenChange={setShowTourBooking}>
-        <DialogContent className="max-w-2xl z-[100]">
+        <DialogContent className="max-w-2xl z-[200]">
           <DialogHeader>
             <DialogTitle>Book a Tour with Dr. Smith</DialogTitle>
           </DialogHeader>
@@ -311,7 +315,7 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
       
       {/* Invitation Dialog */}
       <Dialog open={showInvitation} onOpenChange={setShowInvitation}>
-        <DialogContent className="max-w-md z-[100]">
+        <DialogContent className="max-w-md z-[200]">
           <div className="text-center py-4">
             <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
               <CalendarDays className="w-8 h-8" />
