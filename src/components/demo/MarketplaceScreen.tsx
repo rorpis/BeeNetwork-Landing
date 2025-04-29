@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -261,7 +260,6 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-2 sticky bottom-0 bg-background border-t p-4">
                   <Button onClick={handleBookTour} className="w-full">Book a Tour</Button>
-                  <Button variant="outline" disabled className="w-full">Confirm Space</Button>
                 </CardFooter>
               </Card>
             </div>
@@ -271,7 +269,7 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
       
       {/* Tour Booking Dialog */}
       <Dialog open={showTourBooking} onOpenChange={setShowTourBooking}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl z-[100]">
           <DialogHeader>
             <DialogTitle>Book a Tour with Dr. Smith</DialogTitle>
           </DialogHeader>
@@ -313,7 +311,7 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
       
       {/* Invitation Dialog */}
       <Dialog open={showInvitation} onOpenChange={setShowInvitation}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md z-[100]">
           <div className="text-center py-4">
             <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
               <CalendarDays className="w-8 h-8" />
