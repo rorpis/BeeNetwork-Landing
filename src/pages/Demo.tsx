@@ -1,35 +1,27 @@
+
 import React, { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import WelcomeScreen from '@/components/demo/WelcomeScreen';
 import MarketplaceScreen from '@/components/demo/MarketplaceScreen';
-import ReservationScreen from '@/components/demo/ReservationScreen';
+import CongratulationsScreen from '@/components/demo/CongratulationsScreen';
 import DocumentUploadScreen from '@/components/demo/DocumentUploadScreen';
 import SetupConfirmation from '@/components/demo/SetupConfirmation';
-import PracticeManagement from '@/components/demo/PracticeManagement';
-import MonthlyStatusScreen from '@/components/demo/MonthlyStatusScreen';
 import DemoClosingScreen from '@/components/demo/DemoClosingScreen';
 
 export type DemoStep = 
   | 'welcome'
   | 'marketplace'
-  | 'reservation'
+  | 'congratulations'
   | 'document-upload'
   | 'setup-confirmation'
-  | 'practice-management'
-  | 'monthly-status'
   | 'closing';
 
 const Demo = () => {
   const [currentStep, setCurrentStep] = useState<DemoStep>('welcome');
   const [selectedLocation, setSelectedLocation] = useState<any>(null);
-  const { toast, dismiss } = useToast();
+  const { toast } = useToast();
 
   const goToStep = (step: DemoStep) => {
-    // Use the dismiss method from useToast when changing steps to monthly status
-    if (step === 'monthly-status') {
-      dismiss();
-    }
-    
     setCurrentStep(step);
     window.scrollTo(0, 0);
   };
@@ -42,17 +34,13 @@ const Demo = () => {
         return (
           <MarketplaceScreen 
             onLocationSelect={(location) => setSelectedLocation(location)} 
-            onContinue={() => goToStep('reservation')}
+            onContinue={() => goToStep('congratulations')}
           />
         );
-      case 'reservation':
+      case 'congratulations':
         return (
-          <ReservationScreen 
-            location={selectedLocation}
-            onPaymentComplete={() => {
-              goToStep('document-upload');
-            }}
-            onBack={() => goToStep('marketplace')}
+          <CongratulationsScreen 
+            onContinue={() => goToStep('document-upload')}
           />
         );
       case 'document-upload':
@@ -64,18 +52,6 @@ const Demo = () => {
       case 'setup-confirmation':
         return (
           <SetupConfirmation 
-            onContinue={() => goToStep('practice-management')}
-          />
-        );
-      case 'practice-management':
-        return (
-          <PracticeManagement 
-            onContinue={() => goToStep('monthly-status')}
-          />
-        );
-      case 'monthly-status':
-        return (
-          <MonthlyStatusScreen 
             onContinue={() => goToStep('closing')}
           />
         );

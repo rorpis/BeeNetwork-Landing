@@ -1,9 +1,9 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Check, Upload, Folder, ChevronLeft, ChevronRight, X, FileText } from 'lucide-react';
+import { Check, Upload, ChevronLeft, ChevronRight, X, FileText } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 interface DocumentUploadScreenProps {
   onContinue: () => void;
@@ -12,7 +12,7 @@ interface DocumentUploadScreenProps {
 const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [isLeaseUploaded, setIsLeaseUploaded] = useState(false);
+  const [isLicenseUploaded, setIsLicenseUploaded] = useState(false);
   const [showFileDialog, setShowFileDialog] = useState(false);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
@@ -38,7 +38,7 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
         
         if (progress >= 100) {
           clearInterval(interval);
-          setIsLeaseUploaded(true);
+          setIsLicenseUploaded(true);
           setIsUploading(false);
         }
       }, 200);
@@ -85,14 +85,6 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
                   </td>
                 </tr>
                 <tr className="border-b">
-                  <td className="py-3">Medical License</td>
-                  <td className="text-right">
-                    <span className="inline-flex items-center text-green-600">
-                      <Check className="mr-1 h-5 w-5" /> Verified
-                    </span>
-                  </td>
-                </tr>
-                <tr className="border-b">
                   <td className="py-3">Business EIN</td>
                   <td className="text-right">
                     <span className="inline-flex items-center text-green-600">
@@ -100,10 +92,18 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
                     </span>
                   </td>
                 </tr>
-                <tr>
-                  <td className="py-3">Lease Agreement</td>
+                <tr className="border-b">
+                  <td className="py-3">Liability Insurance</td>
                   <td className="text-right">
-                    {isLeaseUploaded ? (
+                    <span className="inline-flex items-center text-green-600">
+                      <Check className="mr-1 h-5 w-5" /> Verified
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className="py-3">Medical License</td>
+                  <td className="text-right">
+                    {isLicenseUploaded ? (
                       <span className="inline-flex items-center text-green-600">
                         <Check className="mr-1 h-5 w-5" /> Verified
                       </span>
@@ -125,7 +125,7 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
 
             {isUploading && (
               <div className="mt-4">
-                <p className="text-sm mb-2">Uploading Lease_Agreement.pdf...</p>
+                <p className="text-sm mb-2">Uploading Medical_License.pdf...</p>
                 <Progress value={uploadProgress} className="h-2" />
               </div>
             )}
@@ -134,8 +134,8 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
 
         <div className="flex justify-between">
           <Button variant="outline" disabled>Back</Button>
-          <Button onClick={onContinue} disabled={!isLeaseUploaded}>
-            {isLeaseUploaded ? 'Continue' : 'Upload & Continue'}
+          <Button onClick={onContinue} disabled={!isLicenseUploaded}>
+            {isLicenseUploaded ? 'Continue' : 'Upload & Continue'}
           </Button>
         </div>
       </div>
@@ -155,7 +155,7 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
                   <ChevronRight className="h-4 w-4" />
                   <span>Medical Practice</span>
                   <ChevronRight className="h-4 w-4" />
-                  <span className="font-medium">Lease Documents</span>
+                  <span className="font-medium">License Documents</span>
                 </div>
               </div>
               <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setShowFileDialog(false)}>
@@ -168,22 +168,22 @@ const DocumentUploadScreen: React.FC<DocumentUploadScreenProps> = ({ onContinue 
               <div className="grid grid-cols-3 gap-4">
                 {/* Legal Documents */}
                 <div className="col-span-3">
-                  <h3 className="text-sm font-medium text-gray-500 mb-2">Legal Documents</h3>
+                  <h3 className="text-sm font-medium text-gray-500 mb-2">License Documents</h3>
                   <div className="grid grid-cols-3 gap-4">
                     <div 
                       className={`flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors ${
-                        selectedFile === 'signed_lease_agreement' ? 'border-primary bg-primary/5' : ''
+                        selectedFile === 'medical_license' ? 'border-primary bg-primary/5' : ''
                       }`}
-                      onClick={() => handleFileSelect('signed_lease_agreement')}
+                      onClick={() => handleFileSelect('medical_license')}
                     >
-                      <FileText className={`h-12 w-12 ${selectedFile === 'signed_lease_agreement' ? 'text-primary' : 'text-gray-400'} mb-2`} />
-                      <span className="text-sm font-medium text-center">signed_lease_agreement.pdf</span>
-                      <span className="text-xs text-gray-500">2.4 MB</span>
+                      <FileText className={`h-12 w-12 ${selectedFile === 'medical_license' ? 'text-primary' : 'text-gray-400'} mb-2`} />
+                      <span className="text-sm font-medium text-center">medical_license.pdf</span>
+                      <span className="text-xs text-gray-500">1.8 MB</span>
                     </div>
                     <div className="flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-not-allowed opacity-50">
                       <FileText className="h-12 w-12 text-gray-400 mb-2" />
-                      <span className="text-sm font-medium text-center">medical_license.pdf</span>
-                      <span className="text-xs text-gray-500">1.8 MB</span>
+                      <span className="text-sm font-medium text-center">board_certification.pdf</span>
+                      <span className="text-xs text-gray-500">2.4 MB</span>
                     </div>
                     <div className="flex flex-col items-center p-4 rounded-lg border hover:bg-gray-50 cursor-not-allowed opacity-50">
                       <FileText className="h-12 w-12 text-gray-400 mb-2" />

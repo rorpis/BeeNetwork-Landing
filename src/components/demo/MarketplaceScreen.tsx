@@ -1,13 +1,21 @@
-import React, { useState, useCallback, useEffect } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, MapPin, Search, Star, TrendingDown, Users } from 'lucide-react';
+import { CalendarDays, ChevronDown, MapPin, Star, Users } from 'lucide-react';
 import Map from './Map';
-import useEmblaCarousel from 'embla-carousel-react';
+import { useToast } from "@/hooks/use-toast";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader,
+  DialogTitle,
+  DialogFooter
+} from '@/components/ui/dialog';
+import { Calendar } from '@/components/ui/calendar';
+import { add, format, isSameDay } from 'date-fns';
 
 // Fort Lauderdale coordinates
 const FORT_LAUDERDALE_COORDS: [number, number] = [26.1224, -80.1373];
@@ -21,12 +29,12 @@ const locationData = {
   id: 1,
   address: '123 Bee Street, Fort Lauderdale, FL',
   doctors: [
-    { name: 'Dr. Smith', specialty: 'Cardiologist', rating: 4.8, reviews: 124 },
+    { name: 'Dr. Smith', specialty: 'Cardiologist', rating: 4.8, reviews: 124, isOwner: true },
     { name: 'Dr. Lee', specialty: 'Neurologist', rating: 4.9, reviews: 89 },
     { name: 'Dr. Patel', specialty: 'Pediatrician', rating: 4.7, reviews: 156 }
   ],
   price: '$2,500',
-  marketComparison: '20% below market average',
+  spaces: '4 exam rooms',
   publishedDate: '8 days ago',
   amenities: ['Modern Equipment', 'Parking Available', 'Break Room'],
   images: [
@@ -40,6 +48,11 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
   const [showLocationDetails, setShowLocationDetails] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState<any>(null);
+  const [showTourBooking, setShowTourBooking] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | null>(null);
+  const [showInvitation, setShowInvitation] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!api) return;
@@ -53,6 +66,31 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
     setShowLocationDetails(true);
     onLocationSelect(locationData);
   };
+
+  const handleBookTour = () => {
+    setShowTourBooking(true);
+  };
+
+  const handleTimeSlotSelect = (time: string) => {
+    setSelectedTimeSlot(time);
+    setShowTourBooking(false);
+    setShowInvitation(true);
+  };
+
+  const handleAcceptInvitation = () => {
+    setShowInvitation(false);
+    onContinue();
+  };
+
+  // Generate time slots for selected date
+  const getTimeSlots = () => {
+    return ['09:00 AM', '11:30 AM', '02:00 PM', '04:30 PM'];
+  };
+
+  // Next 7 days starting from today
+  const nextSevenDays = Array.from({ length: 7 }, (_, i) => {
+    return add(new Date(), { days: i });
+  });
 
   return (
     <div className="flex flex-col h-screen">
@@ -116,7 +154,7 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
       {/* Main content area with map and details panel */}
       <div className="flex-1 flex overflow-hidden">
         {/* Map section */}
-        <div className={`${showLocationDetails ? 'w-[60%]' : 'w-full'} relative`}>
+        <div className="w-full relative">
           <div className="absolute inset-0">
             <Map onPinClick={handlePinClick} />
           </div>
@@ -181,8 +219,8 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
                       <span className="text-sm text-muted-foreground">/month</span>
                     </div>
                     <div className="flex items-center gap-1 mt-1 text-sm text-emerald-600">
-                      <TrendingDown className="w-4 h-4" />
-                      {locationData.marketComparison}
+                      <Users className="w-4 h-4" />
+                      Spaces available: {locationData.spaces}
                     </div>
                   </div>
 
@@ -196,9 +234,16 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
                       {locationData.doctors.map((doctor, index) => (
                         <div key={index} className="bg-secondary/10 rounded-lg p-3">
                           <div className="flex justify-between items-start">
-                            <div>
-                              <h4 className="font-medium">{doctor.name}</h4>
-                              <p className="text-sm text-muted-foreground">{doctor.specialty}</p>
+                            <div className="flex items-center gap-2">
+                              <div>
+                                <h4 className="font-medium">
+                                  {doctor.name}
+                                  {doctor.isOwner && (
+                                    <Badge variant="outline" className="ml-2 bg-primary/10 text-primary">Owner</Badge>
+                                  )}
+                                </h4>
+                                <p className="text-sm text-muted-foreground">{doctor.specialty}</p>
+                              </div>
                             </div>
                             <Button variant="ghost" size="sm" className="text-xs" disabled>
                               See Bio
@@ -215,14 +260,74 @@ const MarketplaceScreen: React.FC<MarketplaceScreenProps> = ({ onLocationSelect,
                   </div>
                 </CardContent>
                 <CardFooter className="flex flex-col space-y-2 sticky bottom-0 bg-background border-t p-4">
-                  <Button variant="outline" className="w-full">Book a Tour</Button>
-                  <Button onClick={onContinue} className="w-full">Confirm Space</Button>
+                  <Button onClick={handleBookTour} className="w-full">Book a Tour</Button>
+                  <Button variant="outline" disabled className="w-full">Confirm Space</Button>
                 </CardFooter>
               </Card>
             </div>
           </div>
         )}
       </div>
+      
+      {/* Tour Booking Dialog */}
+      <Dialog open={showTourBooking} onOpenChange={setShowTourBooking}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Book a Tour with Dr. Smith</DialogTitle>
+          </DialogHeader>
+          
+          <div className="flex flex-col md:flex-row gap-6 py-4">
+            <div className="flex-1">
+              <h3 className="font-medium mb-2">Select a date</h3>
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                className="border rounded-md"
+                disabled={(date) => date < new Date()}
+              />
+            </div>
+            
+            <div className="flex-1">
+              <h3 className="font-medium mb-2">Available times on {selectedDate && format(selectedDate, 'MMMM d, yyyy')}</h3>
+              <div className="grid grid-cols-2 gap-2">
+                {getTimeSlots().map((time, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    className="justify-start"
+                    onClick={() => handleTimeSlotSelect(time)}
+                  >
+                    {time}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowTourBooking(false)}>Cancel</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Invitation Dialog */}
+      <Dialog open={showInvitation} onOpenChange={setShowInvitation}>
+        <DialogContent className="max-w-md">
+          <div className="text-center py-4">
+            <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+              <CalendarDays className="w-8 h-8" />
+            </div>
+            <h2 className="text-xl font-bold mb-2">Invitation Received</h2>
+            <p className="text-muted-foreground mb-6">
+              Dr. Smith has sent you an invitation to sublease 2 exam rooms for 6 months.
+            </p>
+            <Button onClick={handleAcceptInvitation} className="w-full">
+              Accept Invitation
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
