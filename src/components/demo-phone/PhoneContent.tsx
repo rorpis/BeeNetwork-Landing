@@ -6,19 +6,26 @@ import IPhoneNotification from './IPhoneNotification';
 
 // Define states as an enum
 export enum PhoneState {
+  COMPANY_LOGO = 'COMPANY_LOGO',
   INITIAL_WAVEFORM = 'INITIAL_WAVEFORM',
   AI_FEATURES = 'AI_FEATURES',
   SECOND_WAVEFORM = 'SECOND_WAVEFORM',
   SHOW_MAP = 'SHOW_MAP',
+  SHOW_MAP_2 = 'SHOW_MAP_2',
+  SHOW_MAP_3 = 'SHOW_MAP_3',
   POST_MAP_WAVEFORM = 'POST_MAP_WAVEFORM',
   SENDING_REQUEST = 'SENDING_REQUEST',
   APPOINTMENT_ACCEPTED = 'APPOINTMENT_ACCEPTED'
 }
 
 // Reusable component for Waveform display
-const WaveformContainer: React.FC = () => (
+interface WaveformContainerProps {
+  audioRef?: React.RefObject<HTMLAudioElement>;
+}
+
+const WaveformContainer: React.FC<WaveformContainerProps> = ({ audioRef }) => (
   <div className="w-[300px] h-[200px]">
-    <Waveform className="w-full h-full" />
+    <Waveform className="w-full h-full" audioRef={audioRef} />
   </div>
 );
 
@@ -26,12 +33,14 @@ interface PhoneContentProps {
   currentState: PhoneState;
   onStateChange: (state: PhoneState) => void;
   onAnimationComplete?: () => void;
+  audioRef?: React.RefObject<HTMLAudioElement>;
 }
 
 const PhoneContent: React.FC<PhoneContentProps> = ({ 
   currentState, 
   onStateChange,
-  onAnimationComplete 
+  onAnimationComplete,
+  audioRef
 }) => {
   const [isExiting, setIsExiting] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
@@ -57,7 +66,7 @@ const PhoneContent: React.FC<PhoneContentProps> = ({
     let notifTimeout: NodeJS.Timeout | undefined;
     if (currentState === PhoneState.APPOINTMENT_ACCEPTED) {
       setNotificationMessage("Dr Ramzi's Practice Tour");
-      setNotificationSubtitle("Dr Ramzi invites you to a personal tour of their practice. 10:00 AM PST");
+      setNotificationSubtitle("Dr Ramzi invites you to a personal tour of their practice. 10:00 AM EST");
       notifTimeout = setTimeout(() => {
          setShowNotification(true);
       }, 1500);
@@ -71,10 +80,23 @@ const PhoneContent: React.FC<PhoneContentProps> = ({
 
   const renderStateContent = (state: PhoneState) => {
     switch (state) {
+      case PhoneState.COMPANY_LOGO:
+        return (
+          <div className="flex flex-col items-center justify-center gap-4">
+            <img 
+              src="/lovable-uploads/dashboard-icon.png" 
+              alt="BeeNetwork" 
+              className="w-32 h-32 animate-fade-in"
+            />
+            <span className="text-2xl font-semibold text-white animate-fade-in-delayed">
+              BeeNetwork
+            </span>
+          </div>
+        );
       case PhoneState.INITIAL_WAVEFORM:
         return (
           <div className="flex flex-col items-center gap-4">
-            <WaveformContainer />
+            <WaveformContainer audioRef={audioRef} />
           </div>
         );
       case PhoneState.AI_FEATURES:
@@ -82,10 +104,12 @@ const PhoneContent: React.FC<PhoneContentProps> = ({
       case PhoneState.SECOND_WAVEFORM:
         return (
           <div className="flex flex-col items-center gap-4">
-            <WaveformContainer />
+            <WaveformContainer audioRef={audioRef} />
           </div>
         );
       case PhoneState.SHOW_MAP:
+      case PhoneState.SHOW_MAP_2:
+      case PhoneState.SHOW_MAP_3:
         return (
           <div className="w-full h-3/4">
             <PracticeMap />
@@ -94,7 +118,7 @@ const PhoneContent: React.FC<PhoneContentProps> = ({
       case PhoneState.POST_MAP_WAVEFORM:
         return (
           <div className="flex flex-col items-center gap-4">
-            <WaveformContainer />
+            <WaveformContainer audioRef={audioRef} />
           </div>
         );
       case PhoneState.SENDING_REQUEST:
@@ -116,7 +140,7 @@ const PhoneContent: React.FC<PhoneContentProps> = ({
 
   return (
     <div className={backgroundClass}>
-      {currentState !== PhoneState.SHOW_MAP && (
+      {currentState !== PhoneState.SHOW_MAP && currentState !== PhoneState.SHOW_MAP_2 && currentState !== PhoneState.SHOW_MAP_3 && (
          <div
            style={{
              opacity: isExiting ? 0 : 1,
@@ -127,7 +151,7 @@ const PhoneContent: React.FC<PhoneContentProps> = ({
            {renderStateContent(previousState)}
          </div>
       )}
-      {currentState === PhoneState.SHOW_MAP && renderStateContent(currentState)}
+      {(currentState === PhoneState.SHOW_MAP || currentState === PhoneState.SHOW_MAP_2 || currentState === PhoneState.SHOW_MAP_3) && renderStateContent(currentState)}
 
       {currentState === PhoneState.APPOINTMENT_ACCEPTED && (
         <IPhoneNotification
