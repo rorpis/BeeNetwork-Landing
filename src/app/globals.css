@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
+
+:root {
+  --honey: #f5c24c;
+  --honey-light: #e9c46a;
+  --honey-pale: #fffcf2;
+  --purple: #6b4ba3;
+  --purple-dark: #563d92;
+  --nature-green: #84a98c;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+} 
